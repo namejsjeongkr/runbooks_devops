@@ -1,0 +1,31 @@
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: kind-demo
+nodes:
+- role: control-plane
+  image: kindest/node:v1.28.0
+  # nginx ingress controller 설정
+  kubeadmConfigPatches:
+  - |
+    kind: InitConfiguration
+    nodeRegistration:
+      kubeletExtraArgs:
+        node-labels: "ingress-ready=true"
+  # 로컬에서 아래 포트목록을 사용하지 않아야 함
+  extraPortMappings:
+  - containerPort: 80
+    hostPort: 80
+    protocol: TCP
+  - containerPort: 443
+    hostPort: 443
+    protocol: TCP
+  - containerPort: 30950
+    hostPort: 30950
+  - containerPort: 30951
+    hostPort: 30951
+  - containerPort: 30952
+    hostPort: 30952
+- role: worker
+  image: kindest/node:v1.28.0
+- role: worker
+  image: kindest/node:v1.28.0
