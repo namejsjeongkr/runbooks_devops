@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: externalname-svc
+  namespace: echoserver
+spec:
+  type: ExternalName
+  externalName: www.google.com
