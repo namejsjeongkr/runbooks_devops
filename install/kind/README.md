@@ -13,7 +13,7 @@ kubectl cluster-info --context kind-kind-demo
 # nginx ingress controller 설치
 
 ```sh
-
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
 ```
 
 # kind cluster 삭제 방법
