@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nginx
+  namespace: argocd
+  annotations:
+    notifications.argoproj.io/subscribe.on-health-degraded.slack: SLACK_CHANNEL_NAME
+    notifications.argoproj.io/subscribe.on-sync-failed.slack: SLACK_CHANNEL_NAME
+    notifications.argoproj.io/subscribe.on-sync-succeeded.slack: SLACK_CHANNEL_NAME
+    notifications.argoproj.io/subscribe.on-deployed.slack: SLACK_CHANNEL_NAME
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/namejsjeongkr/devops_k8s
+    targetRevision: main
+    path: nginx/
+    helm:
+      valueFiles:
+        - values.yaml
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: default
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
