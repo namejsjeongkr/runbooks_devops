@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodename-test
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nodename-test
+  template:
+    metadata:
+      labels:
+        app: nodename-test
+    spec:
+      nodeName: ip-10-10-13-252.ap-northeast-2.compute.internal
+      containers:
+      - image: ealen/echo-server:latest
+        imagePullPolicy: IfNotPresent
+        name: nodename-test
+        ports:
+        - containerPort: 80
+        env:
+        - name: PORT
+          value: "80"

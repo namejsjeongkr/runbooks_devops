@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nodeselector-test
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nodeselector-test
+  template:
+    metadata:
+      labels:
+        app: nodeselector-test
+    spec:
+      containers:
+      - image: ealen/echo-server:latest
+        imagePullPolicy: IfNotPresent
+        name: nodeselector-test
+        ports:
+        - containerPort: 80
+        env:
+        - name: PORT
+          value: "80"

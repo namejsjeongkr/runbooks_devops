@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: toleration-test
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: toleration-test
+  template:
+    metadata:
+      labels:
+        app: toleration-test
+    spec:
+      containers:
+      - image: ealen/echo-server:latest
+        imagePullPolicy: IfNotPresent
+        name: toleration-test
+        ports:
+        - containerPort: 80
+        env:
+        - name: PORT
+          value: "80"
+      tolerations:
+      - key: "key1"
+        operator: "Equal"
+        value: "value1"
+        effect: "NoSchedule"
