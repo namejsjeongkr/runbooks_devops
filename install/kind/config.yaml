@@ -34,6 +34,18 @@ nodes:
   # ArgoRollout Dashboard
   - containerPort: 30962
     hostPort: 30962
+  # ArgoRollout blue/green
+  - containerPort: 30963
+    hostPort: 30963
+  # ArgoRollout blue/green
+  - containerPort: 30964
+    hostPort: 30964
+  # ArgoRollout canary
+  - containerPort: 30965
+    hostPort: 30965
+  # ArgoRollout canary
+  - containerPort: 30966
+    hostPort: 30966
 - role: worker
   image: kindest/node:v1.28.0
 - role: worker

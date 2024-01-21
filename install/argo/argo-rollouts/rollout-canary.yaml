@@ -49,6 +49,7 @@ spec:
   - protocol: TCP
     port: 80
     targetPort: 8080
+    nodePort: 30965
   type: NodePort
 ---
 kind: Service
@@ -62,4 +63,5 @@ spec:
   - protocol: TCP
     port: 80
     targetPort: 8080
+    nodePort: 30966
   type: NodePort
