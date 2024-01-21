@@ -1,6 +1,17 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
-
 namespace: argocd
+
 resources:
-- https://raw.githubusercontent.com/argoproj/argo-cd/v2.7.2/manifests/install.yaml
+- ./namespace.yaml
+- github.com/argoproj/argo-cd/manifests/base?ref=stable
+- github.com/argoproj/argo-cd/manifests/crds?ref=stable
+- github.com/argoproj/argo-cd/manifests/cluster-rbac?ref=stable
+
+patches:
+# argocd-server nodeport 설정
+- path: patches/argocd-server-svc.yaml
+  target:
+    kind: Service
+    name: argocd-server
+

@@ -25,6 +25,12 @@ nodes:
     hostPort: 30951
   - containerPort: 30952
     hostPort: 30952
+  # ArgoCD
+  - containerPort: 30960
+    hostPort: 30960
+  # ArgoCD
+  - containerPort: 30961
+    hostPort: 30961
 - role: worker
   image: kindest/node:v1.28.0
 - role: worker
