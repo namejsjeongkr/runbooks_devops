@@ -175,6 +175,6 @@ spec:
             pathType: Prefix
             backend:
               service:
-                name: argo-rollout-argo-rollouts-dashboard
+                name: argo-rollouts-dashboard
                 port:
                   number: 3100
