@@ -32,7 +32,7 @@ spec:
             memory: 1Gi
       terminationGracePeriodSeconds: 60
   strategy:
-    blueGreen: 
+    blueGreen:
       # activeService specifies the service to update with the new template hash at time of promotion.
       # This field is mandatory for the blueGreen update strategy.
       activeService: rollout-bluegreen-active

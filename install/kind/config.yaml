@@ -31,6 +31,9 @@ nodes:
   # ArgoCD
   - containerPort: 30961
     hostPort: 30961
+  # ArgoRollout Dashboard
+  - containerPort: 30962
+    hostPort: 30962
 - role: worker
   image: kindest/node:v1.28.0
 - role: worker

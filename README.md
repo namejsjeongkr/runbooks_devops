@@ -2,4 +2,5 @@
 
 # 목차
 * [kind cluster 설치](./install/kind/)
-* [ArgoCD 설치](./install/argo/)
+* [ArgoCD 설치](./install/argo/argocd)
+* [ArgoRollout 설치](./install/argo/argo-rollouts/)

@@ -16,6 +16,9 @@ kubectl cluster-info --context kind-kind-demo
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
 ```
 
+# ingress example
+* [kind nginx ingress 예제](../../k8s_default_object/ingress.yaml)
+
 # kind cluster 삭제 방법
 
 ```sh

@@ -1,12 +1,13 @@
 ---
 apiVersion: apps/v1
 kind: Deployment
-metadata:  
+metadata:
   labels:
     app.kubernetes.io/component: argo-rollouts-dashboard
     app.kubernetes.io/name: argo-rollouts-dashboard
     app.kubernetes.io/part-of: argo-rollouts
   name: argo-rollouts-dashboard
+  namespace: argo-rollouts
 spec:
   replicas: 1
   selector:
@@ -38,13 +39,16 @@ metadata:
     app.kubernetes.io/name: argo-rollouts-dashboard
     app.kubernetes.io/part-of: argo-rollouts
   name: argo-rollouts-dashboard
+  namespace: argo-rollouts
 spec:
+  type: NodePort
   selector:
     app.kubernetes.io/name: argo-rollouts-dashboard
   ports:
     - port: 3100
       protocol: TCP
       targetPort: 3100
+      nodePort: 30962
 ---
 apiVersion: v1
 kind: ServiceAccount
@@ -54,10 +58,10 @@ metadata:
     app.kubernetes.io/name: argo-rollouts-dashboard
     app.kubernetes.io/part-of: argo-rollouts
   name: argo-rollouts-dashboard
-
+  namespace: argo-rollouts
 ---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: Role
+kind: ClusterRole
 metadata:
   labels:
     app.kubernetes.io/component: argo-rollouts-dashboard
@@ -101,6 +105,16 @@ rules:
 - apiGroups:
   - apps
   resources:
+  - deployments
+  verbs:
+  - get
+  - update
+  - list
+  - watch
+  - patch
+- apiGroups:
+  - apps
+  resources:
   - replicasets
   verbs:
   - get
@@ -115,7 +129,7 @@ rules:
   - watch
 ---
 apiVersion: rbac.authorization.k8s.io/v1
-kind: RoleBinding
+kind: ClusterRoleBinding
 metadata:
   labels:
     app.kubernetes.io/component: argo-rollouts-dashboard
@@ -124,8 +138,43 @@ metadata:
   name: argo-rollouts-dashboard
 roleRef:
   apiGroup: rbac.authorization.k8s.io
-  kind: Role
+  kind: ClusterRole
   name: argo-rollouts-dashboard
 subjects:
 - kind: ServiceAccount
   name: argo-rollouts-dashboard
+  namespace: argo-rollouts
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app.kubernetes.io/component: argo-rollouts-dashboard
+    app.kubernetes.io/name: argo-rollouts-dashboard
+    app.kubernetes.io/part-of: argo-rollouts
+  name: argo-rollouts-dashboard
+spec:
+  ports:
+  - port: 3100
+    protocol: TCP
+    targetPort: 3100
+  selector:
+    app.kubernetes.io/name: argo-rollouts-dashboard
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: argo-rollouts-ingress
+  namespace: argo-rollouts
+spec:
+  ingressClassName: nginx
+  rules:
+    - http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: argo-rollout-argo-rollouts-dashboard
+                port:
+                  number: 3100
