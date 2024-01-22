@@ -25,6 +25,8 @@ nodes:
     hostPort: 30951
   - containerPort: 30952
     hostPort: 30952
+  - containerPort: 30953
+    hostPort: 30953
   # ArgoCD
   - containerPort: 30960
     hostPort: 30960

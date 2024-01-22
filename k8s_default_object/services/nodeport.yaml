@@ -38,6 +38,7 @@ spec:
     - port: 80
       targetPort: 80
       protocol: TCP
+      nodePort: 30953
   type: NodePort
   selector:
     app: echoserver
