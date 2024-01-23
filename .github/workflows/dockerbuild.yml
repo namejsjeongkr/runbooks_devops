@@ -1,0 +1,44 @@
+name: Docker build and push
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'tag'
+        required: true
+
+env:
+  AWS_ROLE_NAME: arn:aws:iam::467606240901:role/github-actions-education
+  AWS_REGION: ap-northeast-2
+  ECR_REGISTRY: 467606240901.dkr.ecr.ap-northeast-2.amazonaws.com
+jobs:
+  docker_build_and_push:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Configure AWS credentials
+      uses: aws-actions/configure-aws-credentials@v1
+      with:
+        aws-region: ${{ env.AWS_REGION }}
+        role-to-assume: ${{ env.AWS_ROLE_NAME }}
+
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+      with:
+        registries: "467606240901"
+
+    - name: Build, tag, and push image to Amazon ECR
+      env:
+        ECR_REGISTRY: ${{ env.ECR_REGISTRY }}
+        IMAGE_TAG: ${{ inputs.tag }}
+      run: |
+        cd cicd_example
+        docker build -t $ECR_REGISTRY/education:${{ inputs.tag }} .
+        docker push $ECR_REGISTRY/education:${{ inputs.tag }}
