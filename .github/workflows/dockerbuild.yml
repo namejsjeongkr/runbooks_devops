@@ -7,6 +7,12 @@ on:
         description: 'tag'
         required: true
 
+permissions:
+  packages: write
+  contents: read
+  id-token: write
+  actions: read
+
 env:
   AWS_ROLE_NAME: arn:aws:iam::467606240901:role/github-actions-education
   AWS_REGION: ap-northeast-2
@@ -42,3 +48,25 @@ jobs:
         cd cicd_example
         docker build -t $ECR_REGISTRY/education:${{ inputs.tag }} .
         docker push $ECR_REGISTRY/education:${{ inputs.tag }}
+
+    - name: Change Image tag
+      run: |
+        cd cicd_example/manifests
+        yq eval '.spec.template.spec.containers[0].image = "467606240901.dkr.ecr.ap-northeast-2.amazonaws.com/education:${{ inputs.tag }}"' deployment.yaml > deployment.yaml
+
+    - name: GIT commit and push docs
+      env:
+        CI_COMMIT_MESSAGE: Update Tag - ${{ inputs.tag }}
+        CI_COMMIT_AUTHOR: testuser
+      run: |
+        git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
+        git config --global user.email "testuser"
+        git status
+        git add -A
+        git commit -m "${{ env.CI_COMMIT_MESSAGE }}"
+
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ github.ref }}
