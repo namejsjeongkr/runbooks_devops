@@ -106,7 +106,7 @@ spec:
             pathType: Prefix
           - backend:
               service:
-                name: rrollout-bluegreen-active
+                name: rollout-bluegreen-active
                 port:
                   number: 80
             path: /
