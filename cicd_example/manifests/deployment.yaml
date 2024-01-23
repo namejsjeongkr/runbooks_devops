@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: python-ecr-test
+  namespace: {자기 이름}
+spec:
+  selector:
+    matchLabels:
+      app: python-ecr-test
+  template:
+    metadata:
+      labels:
+        app: python-ecr-test
+    spec:
+      containers:
+      - name: python-ecr-test
+        image: 467606240901.dkr.ecr.ap-northeast-2.amazonaws.com/education:{자기 이름}
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "100m"
+        ports:
+        - containerPort: 8000
