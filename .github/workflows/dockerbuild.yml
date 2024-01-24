@@ -46,7 +46,7 @@ jobs:
       run: |
         cd cicd_example/manifests
         cat deployment.yaml
-        sed -i '/^/s/tag:.*/tag: ${{ inputs.tag }}/' deployment.yaml
+        new_image_tag="$ECR_REGISTRY/education:${{ inputs.tag }}" yq -i '.spec.template.spec.containers[0].image = strenv(new_image_tag)' deployment.yaml
         cat deployment.yaml
 
     - name: GIT commit and push docs
