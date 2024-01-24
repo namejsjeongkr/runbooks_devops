@@ -54,8 +54,8 @@ jobs:
         CI_COMMIT_MESSAGE: Update Tag - ${{ inputs.tag }}
         CI_COMMIT_AUTHOR: testuser
       run: |
-        git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
-        git config --global user.email "testuser"
+        git config --global user.name "gitbot"
+        git config --global user.email "gitbot"
         git status
         git add -A
         git commit -m "${{ env.CI_COMMIT_MESSAGE }}"
