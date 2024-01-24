@@ -13,11 +13,11 @@ spec:
         app: python-ecr-test
     spec:
       containers:
-      - name: python-ecr-test
-        image: 467606240901.dkr.ecr.ap-northeast-2.amazonaws.com/education:sungwook
-        resources:
-          limits:
-            memory: "128Mi"
-            cpu: "100m"
-        ports:
-        - containerPort: 8000
+        - name: python-ecr-test
+          image: 467606240901.dkr.ecr.ap-northeast-2.amazonaws.com/education:sungwook_30
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "100m"
+          ports:
+            - containerPort: 8000
