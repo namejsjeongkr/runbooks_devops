@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: python-ecr-test
-  namespace: {자기 이름}
+  namespace: sungwook
 spec:
   selector:
     matchLabels:
@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: python-ecr-test
-        image: 467606240901.dkr.ecr.ap-northeast-2.amazonaws.com/education:{자기 이름}
+        image: 467606240901.dkr.ecr.ap-northeast-2.amazonaws.com/education:sungwook
         resources:
           limits:
             memory: "128Mi"
